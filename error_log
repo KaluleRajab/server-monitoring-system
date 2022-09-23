@@ -1,0 +1,23 @@
+[05-Dec-2021 08:47:59 UTC] PHP Fatal error:  No dependencies found in vendor dir. Did you install the dependencies?
+                Please run "php composer.phar install". in /home/skycodeit/public_html/server/src/bootstrap.php on line 73
+[05-Dec-2021 08:48:28 UTC] PHP Fatal error:  No dependencies found in vendor dir. Did you install the dependencies?
+                Please run "php composer.phar install". in /home/skycodeit/public_html/server/src/bootstrap.php on line 73
+[05-Dec-2021 08:49:30 UTC] PHP Fatal error:  No dependencies found in vendor dir. Did you install the dependencies?
+                Please run "php composer.phar install". in /home/skycodeit/public_html/server/src/bootstrap.php on line 73
+[05-Dec-2021 08:49:42 UTC] PHP Fatal error:  No dependencies found in vendor dir. Did you install the dependencies?
+                Please run "php composer.phar install". in /home/skycodeit/public_html/server/src/bootstrap.php on line 73
+[05-Dec-2021 08:49:47 UTC] PHP Fatal error:  No dependencies found in vendor dir. Did you install the dependencies?
+                Please run "php composer.phar install". in /home/skycodeit/public_html/server/src/bootstrap.php on line 73
+[05-Dec-2021 08:50:49 UTC] PHP Fatal error:  No dependencies found in vendor dir. Did you install the dependencies?
+                Please run "php composer.phar install". in /home/skycodeit/public_html/server/src/bootstrap.php on line 73
+[05-Dec-2021 08:53:13 UTC] PHP Fatal error:  No dependencies found in vendor dir. Did you install the dependencies?
+                Please run "php composer.phar install". in /home/skycodeit/public_html/server/src/bootstrap.php on line 73
+[05-Dec-2021 11:45:32 UTC] PHP Warning:  urlencode() expects parameter 1 to be string, array given in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 76
+[05-Dec-2021 11:46:03 UTC] PHP Warning:  urlencode() expects parameter 1 to be string, array given in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 76
+[05-Dec-2021 11:47:01 UTC] PHP Parse error:  syntax error, unexpected ';', expecting ')' in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 76
+[05-Dec-2021 11:48:42 UTC] PHP Notice:  Array to string conversion in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 76
+[05-Dec-2021 11:48:42 UTC] PHP Notice:  Array to string conversion in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 87
+[05-Dec-2021 11:49:48 UTC] PHP Notice:  Array to string conversion in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 84
+[05-Dec-2021 11:50:28 UTC] PHP Notice:  Array to string conversion in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 84
+[05-Dec-2021 11:50:38 UTC] PHP Notice:  Array to string conversion in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 84
+[05-Dec-2021 11:51:05 UTC] PHP Notice:  Array to string conversion in /home/skycodeit/public_html/server/src/psm/Txtmsg/Thinvoidsms.php on line 67
