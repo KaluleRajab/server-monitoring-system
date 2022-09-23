@@ -1,0 +1,60 @@
+{% extends "module/install/main.tpl.html" %}
+{% use "module/install/results.tpl.html" %}
+{% import 'main/macros.tpl.html' as macro %}
+
+{% block install %}
+<div class="row">
+	<div class="col-md-12">{{ block('results') }}</div>
+</div>
+<div class="row">
+   <div class="col-md-6">
+	<form id="psm_config" action="install.php?action=config" method="post">
+	  {{ macro.input_csrf() }}
+		<p>Please enter the application url:</p>
+		<div class="form-group">
+		<label class="col-form-label" for="base_url">Application base url</label>
+		<input type="text" id="base_url" name="base_url" value="{{ base_url }}" />
+	  </div>
+	  <p>Please enter your database info:</p>
+	  <div class="form-group">
+		<label class="col-form-label" for="host">Database host</label>
+		<input type="text" id="host" name="db_host" value="{{ db_host }}" />
+	  </div>
+	  <div class="form-group">
+		<label class="col-form-label" for="host">Database port</label>
+		<input type="text" id="port" name="db_port" value="{{ db_port }}" placeholder="3306 most likely, may be empty" />
+	  </div>
+	  <div class="form-group">
+		<label class="col-form-label" for="name">Database name</label>
+		<input type="text" id="name" name="db_name" value="{{ db_name }}" placeholder="db name" />
+	  </div>
+	  <div class="form-group">
+		<label class="col-form-label" for="user">Database user</label>
+		<input type="text" id="user" name="db_user" value="{{ db_user }}" placeholder="db user" />
+	  </div>
+	  <div class="form-group">
+		<label class="col-form-label" for="pass">Database password</label>
+		<input type="password" id="pass" name="db_pass" value="{{ db_pass }}" placeholder="db password" />
+	  </div>
+	  <div class="form-group">
+		<label class="col-form-label" for="prefix">Table prefix</label>
+		<input type="text" id="prefix" name="db_prefix" value="{{ db_prefix }}" />
+	  </div>
+	  <div class="form-group">
+		<button type="submit" class="btn">Save configuration</button>
+	  </div>
+	</form>
+   </div>
+   {% if include_config_new_copy %}
+	<div class="col-md-6">
+		<h3>Your config file:</h3>
+		<div class="alert alert-danger">Unable to save your configuration.</div>
+		<p>Your database information is valid, however we are unable to create the configuration file automatically.
+		Please create a new file in the project directory called "config.php" and copy the information below.</p>
+		<p>After you have copied the configuration, press the button to continue.</p>
+		<p class="pull-left"><textarea rows="10">{{ php_config }}</textarea></p>
+		<p class="col-md-offset-2"><input type="submit" class="btn btn-primary" value="I have saved the configuration" onclick="location.reload(true);" /></p>
+	</div>
+   {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,184 @@
+{% import 'main/macros.tpl.html' as macro %}
+<form name="edit_config" class="col-md-6 pl-0 pr-0" action="index.php?mod=config&action=save" id="edit_config" method="post">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="config_tab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link {{ general_active }}" id="config-general-tab" data-toggle="tab" href="#config-general"
+                role="tab" aria-controls="config-general" aria-selected="{% if general_active %}true{% else %}false{% endif %}">{{
+                label_general }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ email_active }}" id="config-email-tab" data-toggle="tab" href="#config-email" role="tab"
+                aria-controls="config-email" aria-selected="{% if email_active %}true{% else %}false{% endif %}">{{
+                label_tab_email }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ sms_active }}" id="config-sms-tab" data-toggle="tab" href="#config-sms" role="tab"
+                aria-controls="config-sms" aria-selected="{% if sms_active %}true{% else %}false{% endif %}">{{
+                label_tab_sms }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ pushover_active }}" id="config-pushover-tab" data-toggle="tab" href="#config-pushover"
+                role="tab" aria-controls="config-pushover" aria-selected="{% if pushover_active %}true{% else %}false{% endif %}">{{
+                label_tab_pushover }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ telegram_active }}" id="config-telegram-tab" data-toggle="tab" href="#config-telegram"
+                role="tab" aria-controls="config-telegram" aria-selected="{% if telegram_active %}true{% else %}false{% endif %}">{{
+                label_tab_telegram }}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ jabber_active }}" id="config-jabber-tab" data-toggle="tab" href="#config-jabber"
+               role="tab" aria-controls="config-jabber" aria-selected="{% if jabber_active %}true{% else %}false{% endif %}">{{
+                label_tab_jabber }}</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane {{ general_active }}" id="config-general" role="tabpanel" aria-labelledby="config-general-tab">
+            <!-- General settings -->
+            <fieldset>
+                <legend>{{ label_general }}</legend>
+                <!-- Update check -->
+                {{ macro.input_checkbox("show_update", "show_update[]", label_show_update, show_update_checked) }}
+                <!-- Language -->
+                {{ macro.input_select("language", "language", label_language, languages, language_current) }}
+                <!-- Auto refresh -->
+                {{ macro.input_field("number", "auto_refresh_servers", null, "auto_refresh_servers", label_auto_refresh, auto_refresh_servers, "0", "10", "auto_refresh_description", null, label_seconds) }}
+                <!-- Password encryption key -->
+                <!-- TODO how does the encryption function works currently? -->
+                {{ macro.input_field("text", "password_encrypt_key", null, "password_encrypt_key", label_password_encrypt_key, password_encrypt_key, "cab03a766...", "40", "password_encrypt_key_help", label_password_encrypt_key_note) }}
+            </fieldset>
+            <!-- Notification settings -->
+            <fieldset>
+                <legend>{{ label_settings_notification }}</legend>
+                <!-- Combine notifications -->
+                {{ macro.input_checkbox("combine_notifications", "combine_notifications[]", label_combine_notifications, combine_notifications_checked, "combine_notifications_help", label_combine_notifications_description) }}
+                <!-- Alert type -->
+                {{ macro.input_select("alert_type", "alert_type", label_alert_type, alert_type, alert_type_selected, "alert_type_help", label_alert_type_description) }}
+            </fieldset>
+            <!-- Log settings -->
+            <fieldset>
+                <legend>{{ label_settings_log }}</legend>
+                <!-- log_enabled -->
+                {{ macro.input_checkbox("log_status", "log_status[]", label_log_status, log_status_checked, "log_status_help", label_log_status_description ) }}
+                <!-- log retention period -->
+                {{ macro.input_field("text", "log_retention_period", null, "log_retention_period", label_log_retention_period, log_retention_period, "0", "3", "log_retention_period_help", null, label_days) }}
+            </fieldset>
+            <!-- Proxy settings -->
+            <fieldset>
+                <legend>{{ label_settings_proxy }}</legend>
+                <!-- enable proxy -->
+                {{ macro.input_checkbox("proxy", "proxy[]", label_proxy, proxy_checked, "proxy_help", label_alert_proxy ) }}
+                <!-- proxy url -->
+                {{ macro.input_field("text", "proxy_url", null, "proxy_url", label_proxy_url, proxy_url, label_proxy_url, null, "proxy_url_help", label_alert_proxy_url) }}
+                <!-- proxy user -->
+                {{ macro.input_field("text", "proxy_user", null, "proxy_user", label_proxy_user, proxy_user, label_proxy_user, null, null, null, null, true) }}
+                <!-- proxy password -->
+                {{ macro.input_field("password", "proxy_password", null, "proxy_password", label_proxy_password, proxy_password, label_proxy_password, null, null, null, null, true) }}
+                {{ macro.button_save("general_submit",  label_save) }}
+            </fieldset>
+        </div>
+        <div class="tab-pane {{ email_active }}" id="config-email" role="tabpanel" aria-labelledby="config-email-tab">
+            <fieldset>
+                <legend>{{ label_settings_email }}</legend>
+                <!-- enable email -->
+                {{ macro.input_checkbox("email_status", "email_status[]", label_email_status, email_status_checked) }}
+                <!-- enable email log -->
+                {{ macro.input_checkbox("log_email", "log_email[]", label_log_email, log_email_checked) }}
+                <!-- email name -->
+                {{ macro.input_field("text", "email_from_name", null, "email_from_name", label_email_from_name, email_from_name, label_email_from_name, "255") }}
+                <!-- email address -->
+                {{ macro.input_field("email", "email_from_email", null, "email_from_email", label_email_from_email, email_from_email, label_email_from_email, "255") }}
+            </fieldset>
+            <fieldset>
+                <legend>SMTP</legend>
+                <!-- enable smtp -->
+                {{ macro.input_checkbox("email_smtp", "email_smtp[]", label_email_smtp, email_smtp_checked) }}
+                <!-- smtp host -->
+                {{ macro.input_field("text", "email_smtp_host", null, "email_smtp_host", label_email_smtp_host, email_smtp_host, label_email_smtp_host, "255") }}
+                <!-- smtp host -->
+                {{ macro.input_field("number", "email_smtp_port", null, "email_smtp_port", label_email_smtp_port, email_smtp_port, label_email_smtp_port, "5") }}
+                <!-- smtp security -->
+                {{ macro.input_select("email_smtp_security", "email_smtp_security", label_email_smtp_security, email_smtp_security, email_smtp_security_selected) }}
+                <!-- email user -->
+                {{ macro.input_field("text", "email_smtp_username", null, "email_smtp_username", label_email_smtp_username, email_smtp_username, label_email_smtp_username, "255") }}
+                <!-- email password -->
+                {{ macro.input_field("password", "email_smtp_password", null, "email_smtp_password", label_email_smtp_password, email_smtp_password, label_leave_blank, "255", null, null, null, true) }}
+                {{ macro.button_test("testEmail", label_test) }}
+                {{ macro.input_hidden("test_email", "0") }}
+                {{ macro.button_save("email_submit",  label_save) }}
+            </fieldset>
+        </div>
+        <div class="tab-pane {{ sms_active }}" id="config-sms" role="tabpanel" aria-labelledby="config-sms-tab">
+            <fieldset>
+                <legend>{{ label_settings_sms }}</legend>
+                <!-- enable sms -->
+                {{ macro.input_checkbox("sms_status", "sms_status[]", label_sms_status, sms_status_checked) }}
+                <!-- enable sms log -->
+                {{ macro.input_checkbox("log_sms", "log_sms", label_log_sms, log_sms_checked) }}
+                <!-- sms gateway -->
+                {{ macro.input_select("sms_gateway", "sms_gateway", label_sms_gateway, sms_gateway, sms_gateway_selected) }}
+                <!-- sms user -->
+                {{ macro.input_field("text", "sms_gateway_username", null, "sms_gateway_username", label_sms_gateway_username, sms_gateway_username, label_sms_gateway_username, "255") }}
+                <!-- sms password / API key-->
+                {{ macro.input_field("text", "sms_gateway_password", null, "sms_gateway_password", label_sms_gateway_password, sms_gateway_password, label_sms_gateway_password, "255") }}
+                <!-- sms sender number-->
+                {{ macro.input_field("text", "sms_from", null, "sms_from", label_sms_from, sms_from, "+31123456789", "255") }}
+                
+                {{ macro.button_test("testSms", label_test) }}
+                {{ macro.input_hidden("test_sms", "0") }}
+                {{ macro.button_save("sms_submit", label_save) }}
+            </fieldset>
+        </div>
+        <div class="tab-pane {{ pushover_active }}" id="config-pushover" role="tabpanel" aria-labelledby="config-pushover-tab">
+            <fieldset>
+                <legend>{{ label_settings_pushover }}</legend>
+                <p>{{ label_pushover_description|raw }}</p>
+                <!-- enable pushover -->
+                {{ macro.input_checkbox("pushover_status", "pushover_status", label_pushover_status, pushover_status_checked) }}
+                <!-- enable pushover log -->
+                {{ macro.input_checkbox("log_pushover", "log_pushover", label_log_pushover, log_pushover_checked) }}
+                <!-- pushover key -->
+                {{ macro.input_field("text", "pushover_api_token", null, "pushover_api_token", label_pushover_api_token, pushover_api_token, label_pushover_api_token, "255", "pushover_api_token_help", label_pushover_api_token_description) }}
+                {{ macro.button_test("testPushover", label_test) }}
+                {{ macro.input_hidden("test_pushover", "0") }}
+                {{ macro.button_save("pushover_submit",  label_save) }}
+            </fieldset>
+        </div>
+        <div class="tab-pane {{ telegram_active }}" id="config-telegram" role="tabpanel" aria-labelledby="config-telegram-tab">
+            <fieldset>
+                <legend>{{ label_settings_telegram }}</legend>
+                <p>{{ label_telegram_description|raw }}</p>
+                <!-- enable telegram -->
+                {{ macro.input_checkbox("telegram_status", "telegram_status[]", label_telegram_status, telegram_status_checked) }}
+                <!-- enable telegram log -->
+                {{ macro.input_checkbox("log_telegram", "log_telegram[]", label_log_telegram, log_telegram_checked) }}
+                <!-- telegram key -->
+                {{ macro.input_field("text", "telegram_api_token", null, "telegram_api_token", label_telegram_api_token, telegram_api_token, label_telegram_api_token, "255", "telegram_api_token_help", label_telegram_api_token_description) }}
+                {{ macro.button_test("testTelegram", label_test) }}
+                {{ macro.input_hidden("test_telegram", "0") }}
+                {{ macro.button_save("telegram_submit",  label_save) }}
+            </fieldset>
+        </div>
+        <div class="tab-pane {{ jabber_active }}" id="config-jabber" role="tabpanel" aria-labelledby="config-jabber-tab">
+            <fieldset>
+                <legend>{{ label_settings_jabber }}</legend>
+                <!-- enable jabber -->
+                {{ macro.input_checkbox("jabber_status", "jabber_status[]", label_jabber_status, jabber_status_checked) }}
+                <!-- enable jabber log -->
+                {{ macro.input_checkbox("log_jabber", "log_jabber[]", label_log_jabber, log_jabber_checked) }}
+                <!-- jabber settings -->
+                {{ macro.input_field("text", "jabber_host", null, "jabber_host", label_jabber_host, jabber_host, label_jabber_host, "255", "jabber_host_help", label_jabber_host_description) }}
+                {{ macro.input_field("number", "jabber_port", null, "jabber_port", label_jabber_port, jabber_port, label_jabber_port, "255", "jabber_port_help", label_jabber_port_description) }}
+                {{ macro.input_field("text", "jabber_username", null, "jabber_username", label_jabber_username, jabber_username, label_jabber_username, "255", 'jabber_username_help', label_jabber_username_description) }}
+                {{ macro.input_field("text", "jabber_domain", null, "jabber_domain", label_jabber_domain, jabber_domain, label_jabber_domain, "255", "jabber_domain_help", label_jabber_domain_description) }}
+                {{ macro.input_field("password", "jabber_password", null, "jabber_password", label_jabber_password, jabber_password, label_jabber_password, "255", "jabber_password_help", label_jabber_password_description) }}
+                {{ macro.button_test("testJabber", label_test) }}
+                {{ macro.input_hidden("test_jabber", "0") }}
+                {{ macro.button_save("jabber_submit",  label_save) }}
+            </fieldset>
+        </div>
+    </div>
+    {{ macro.input_csrf() }}
+</form>

@@ -1,0 +1,41 @@
+{% extends "module/install/main.tpl.html" %}
+{% use "module/install/results.tpl.html" %}
+{% import 'main/macros.tpl.html' as macro %}
+
+{% block install %}
+<p>Sweet, your database connection is up and running!</p>
+<p>Next, please set up a new account to access your monitor:</p>
+{{ block('results') }}
+<p>&nbsp;</p>
+<form name="psm_config" class="col-md-6 pl-0 pr-0" action="install.php?action=install" id="psm_config" method="post">
+	{{ macro.input_csrf() }}
+	<fieldset>
+		<legend>Administrator</legend>
+		<div class="col">
+			<!-- Username -->
+			<div class="form-group">
+				<label for="username">Username</label>
+				<input type="text" class="form-control" autocomplete="nickname" name="username" id="username" maxlength="255"
+				 required autofocus>
+			</div>
+			<!-- Password -->
+			<div class="form-group">
+					<label for="password">Password</label>
+					<input type="password" class="form-control" name="password" id="password" maxlength="255"
+					 required>
+				</div>
+				<!-- Password repeat -->
+			<div class="form-group">
+					<label for="password_repeat">Password repeat</label>
+					<input type="password" class="form-control" name="password_repeat" id="password_repeat" maxlength="255"
+					 required>
+				</div>
+				<!-- Email -->
+			<div class="form-group">
+					<label for="email">Email</label>
+					<input type="email" class="form-control" autocomplete="email" name="email" id="email" maxlength="255"
+					 required>
+				</div>
+				<button class="btn btn-success btn-lg" type="submit">Install</button>
+	</fieldset>
+{% endblock %}
