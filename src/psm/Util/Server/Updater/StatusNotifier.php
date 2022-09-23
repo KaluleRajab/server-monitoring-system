@@ -32,7 +32,9 @@
  * @see \psm\Util\Server\Updater\StatusUpdater
  * @see \psm\Util\Server\Updater\Autorun
  */
+
 namespace psm\Util\Server\Updater;
+
 use Norgul\Xmpp\Options;
 use psm\Service\Database;
 
@@ -69,10 +71,10 @@ class StatusNotifier
      */
     protected $send_telegram = false;
 
-	/**
-	 * Send Jabber?
-	 * @var bool
-	 */
+    /**
+     * Send Jabber?
+     * @var bool
+     */
     protected $send_jabber = false;
 
     /**
@@ -257,9 +259,9 @@ class StatusNotifier
             $this->combine ? $this->setCombi('telegram') : $this->notifyByTelegram($users);
         }
 
-        if ($this->send_jabber && $this->server['jaber'] == 'yes') {
+        /* if ($this->send_jabber && $this->server['jaber'] == 'yes') {
 	        $this->combine ? $this->setCombi('jabber') : $this->notifyByJabber($users);
-        }
+        } */
 
         return $notify;
     }
@@ -286,7 +288,7 @@ class StatusNotifier
             }
             return;
         }
-        
+
         $this->combiNotification['notifications'][$method][$status][$this->server_id] =
             psm_parse_msg($this->status_new, $method . '_message', $this->server, true);
     }
@@ -372,8 +374,8 @@ class StatusNotifier
             'UP' => $this->combiNotification['count'][$user_id]['on']
         );
         $translation =  isset($GLOBALS['sm_lang_default']['notifications']['combi_' . $method . '_subject']) ?
-        psm_parse_msg(null, $method . '_subject', $vars, true) :
-        null;
+            psm_parse_msg(null, $method . '_subject', $vars, true) :
+            null;
         return $translation;
     }
 
@@ -546,12 +548,12 @@ class StatusNotifier
             psm_parse_msg($this->status_new, 'telegram_message', $this->server);
         $telegram = psm_build_telegram();
         $telegram->setMessage($message);
-        
+
         // Log
         if (psm_get_conf('log_telegram')) {
             $log_id = psm_add_log($this->server_id, 'telegram', $message);
         }
-        
+
         foreach ($users as $user) {
             // Log
             if (!empty($log_id)) {
@@ -562,52 +564,52 @@ class StatusNotifier
         }
     }
 
-	/**
-	 * @param array $users
-	 * @param array $combi
-	 */
+    /**
+     * @param array $users
+     * @param array $combi
+     */
     protected function notifyByJabber($users, $combi = [])
     {
-	    // Remove users that have no jabber
-	    foreach ($users as $k => $user) {
-		    if (trim($user['jabber']) === '') {
-			    unset($users[$k]);
-		    }
-	    }
+        // Remove users that have no jabber
+        foreach ($users as $k => $user) {
+            if (trim($user['jabber']) === '') {
+                unset($users[$k]);
+            }
+        }
 
-	    // Validation
-	    if (empty($users)) {
-		    return;
-	    }
+        // Validation
+        if (empty($users)) {
+            return;
+        }
 
-	    // Message
-	    $message = key_exists('message', $combi) ?
-		    $combi['message'] :
-		    psm_parse_msg($this->status_new, 'jabber_message', $this->server);
+        // Message
+        $message = key_exists('message', $combi) ?
+            $combi['message'] :
+            psm_parse_msg($this->status_new, 'jabber_message', $this->server);
 
-	    // Log
-	    if (psm_get_conf('log_jabber')) {
-		    $log_id = psm_add_log($this->server_id, 'jabber', $message);
-	    }
+        // Log
+        if (psm_get_conf('log_jabber')) {
+            $log_id = psm_add_log($this->server_id, 'jabber', $message);
+        }
 
-	    $usersJabber = [];
-	    foreach ($users as $user) {
-		    // Log
-		    if (!empty($log_id)) {
-			    psm_add_log_user($log_id, $user['user_id']);
-		    }
-		    $usersJabber[] = $user['jabber'];
-	    }
-	    // Jabber
-	    psm_jabber_send_message(
-		    psm_get_conf('jabber_host'),
-		    psm_get_conf('jabber_username'),
-		    psm_password_decrypt(psm_get_conf('password_encrypt_key'), psm_get_conf('jabber_password')),
-		    $usersJabber,
-		    $message,
-		    (trim(psm_get_conf('jabber_port')) !== '' ? (int)psm_get_conf('jabber_port') : null),
-		    (trim(psm_get_conf('jabber_domain')) !== '' ? psm_get_conf('jabber_domain') : null)
-	    );
+        $usersJabber = [];
+        foreach ($users as $user) {
+            // Log
+            if (!empty($log_id)) {
+                psm_add_log_user($log_id, $user['user_id']);
+            }
+            $usersJabber[] = $user['jabber'];
+        }
+        // Jabber
+        psm_jabber_send_message(
+            psm_get_conf('jabber_host'),
+            psm_get_conf('jabber_username'),
+            psm_password_decrypt(psm_get_conf('password_encrypt_key'), psm_get_conf('jabber_password')),
+            $usersJabber,
+            $message,
+            (trim(psm_get_conf('jabber_port')) !== '' ? (int)psm_get_conf('jabber_port') : null),
+            (trim(psm_get_conf('jabber_domain')) !== '' ? psm_get_conf('jabber_domain') : null)
+        );
     }
 
     /**

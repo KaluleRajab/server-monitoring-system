@@ -187,7 +187,7 @@ class User
     {
         if (isset($_COOKIE['rememberme'])) {
             // extract data from the cookie
-            list ($user_id, $token, $hash) = explode(':', $_COOKIE['rememberme']);
+            list($user_id, $token, $hash) = explode(':', $_COOKIE['rememberme']);
             // check cookie hash validity
             if ($hash == hash('sha256', $user_id . ':' . $token . PSM_LOGIN_COOKIE_SECRET_KEY) && !empty($token)) {
                 // cookie looks good, try to select corresponding user
@@ -217,6 +217,7 @@ class User
      */
     public function loginWithPostData($user_name, $user_password, $user_rememberme = false)
     {
+
         $user_name = trim($user_name);
         $user_password = trim($user_password);
 
@@ -225,9 +226,15 @@ class User
         }
         $user = $this->getUserByUsername($user_name);
 
+
+
+        /* $t = $this->changePassword($user->user_id, $user_password);
+        var_dump($t);
+        exit; */
         // using PHP 5.5's password_verify() function to check if the provided passwords
         // fits to the hash of that user's password
         if (!isset($user->user_id)) {
+
             password_verify($user_password, 'dummy_call_against_timing');
             return false;
         } elseif (!password_verify($user_password, $user->password)) {
@@ -484,10 +491,8 @@ class User
             }
 
             $this->user_preferences = array();
-            foreach (
-                $this->db_connection->query('SELECT `key`,`value` FROM `' .
-                PSM_DB_PREFIX . 'users_preferences` WHERE `user_id` = ' . $this->user_id) as $row
-            ) {
+            foreach ($this->db_connection->query('SELECT `key`,`value` FROM `' .
+                PSM_DB_PREFIX . 'users_preferences` WHERE `user_id` = ' . $this->user_id) as $row) {
                 $this->user_preferences[$row['key']] = $row['value'];
             }
         }

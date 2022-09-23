@@ -32,7 +32,9 @@
  * @see \psm\Util\Server\Updater\StatusNotifier
  * @see \psm\Util\Server\Updater\Autorun
  */
+
 namespace psm\Util\Server\Updater;
+
 use psm\Service\Database;
 
 class StatusUpdater
@@ -179,7 +181,7 @@ class StatusUpdater
         $max_runs = ($max_runs == null || $max_runs > 1) ? 1 : $max_runs;
         $server_ip = escapeshellcmd($this->server['ip']);
         $os_is_windows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-
+        // var_dump($server_ip);
         $status = $os_is_windows ?
             $this->pingFromWindowsMachine($server_ip, $max_runs) :
             $this->pingFromNonWindowsMachine($server_ip, $max_runs);
@@ -328,7 +330,7 @@ class StatusUpdater
                         if ($i === 0 || strpos($line, ':') == false) {
                             continue; // We skip the status code & other non-header lines. Needed for proxy or redirects
                         } else {
-                            list ($key, $value) = explode(': ', $line);
+                            list($key, $value) = explode(': ', $line);
                             // Header found (case-insensitive)
                             if (strcasecmp($key, $this->server['header_name']) == 0) {
                                 // The value matches what we need, everything is fine
@@ -433,14 +435,17 @@ class StatusUpdater
      */
     private function pingFromWindowsMachine($server_ip, $max_runs)
     {
+
         // Windows / Linux variant: use socket on Windows, commandline on Linux
         // socket ping - Code from http://stackoverflow.com/a/20467492
         // save response time
         $starttime = microtime(true);
-
+        set_error_handler(function () { /* ignore errors */
+            $status = false;
+        });
         // set ping payload
         $package = "\x08\x00\x7d\x4b\x00\x00\x00\x00PingHost";
-
+        var_dump($server_ip);
         $socket = socket_create(AF_INET, SOCK_RAW, 1);
         socket_set_option($socket, SOL_SOCKET, SO_RCVTIMEO, array('sec' => 10, 'usec' => 0));
         socket_connect($socket, $server_ip, null);
@@ -451,11 +456,12 @@ class StatusUpdater
         if ($status) {
             $this->header = "Success.";
         } else {
-            $this->error = "Couldn't create socket [" . $errorcode . "]: " . socket_strerror(socket_last_error());
+            $this->error = "Couldn't create socket : " . socket_strerror(socket_last_error());
         }
 
         $this->rtime = microtime(true) - $starttime;
         socket_close($socket);
+        restore_error_handler();
 
         return $status;
     }
