@@ -1,0 +1,1 @@
+"C:\software\php\php.exe" -f "C:\software\htdocs\servermonitor\cron\status.cron.php"
